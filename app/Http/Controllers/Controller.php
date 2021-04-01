@@ -14,9 +14,13 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     // <LoadViewDataSnippet>
-    public function loadViewData()
+    public function loadViewData($request = null)
     {
         $viewData = [];
+
+        if($request !== null){
+            $viewData['request'] = $request;
+        }
 
         // Check for flash errors
         if (session('error')) {

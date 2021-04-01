@@ -74,8 +74,10 @@ class AuthController extends Controller
           'code' => $authCode
         ]);
 
+        $token = $accessToken->getToken();
+
         $graph = new Graph();
-        $graph->setAccessToken($accessToken->getToken());
+        $graph->setAccessToken($token);
 
         $user = $graph->createRequest('GET', '/me')
           ->setReturnType(Model\User::class)

@@ -11,7 +11,8 @@ class TokenCache {
       'refreshToken' => $accessToken->getRefreshToken(),
       'tokenExpires' => $accessToken->getExpires(),
       'userName' => $user->getDisplayName(),
-      'userEmail' => null !== $user->getMail() ? $user->getMail() : $user->getUserPrincipalName()
+      'userEmail' => null !== $user->getMail() ? $user->getMail() : $user->getUserPrincipalName(),
+      'id' => $user->getId()
     ]);
   }
 

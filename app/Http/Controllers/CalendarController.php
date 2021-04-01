@@ -29,10 +29,7 @@ class CalendarController extends Controller
       '$orderby' => 'createdDateTime DESC'
     );
 
-    // Append query parameters to the '/me/events' url
-    $getEventsUrl = '/me/events?'.http_build_query($queryParams);
-
-    $events = $graph->createRequest('GET', $getEventsUrl)
+    $events = $graph->createRequest('GET', '/me/events?'.http_build_query($queryParams))
       ->setReturnType(Model\Event::class)
       ->execute();
 

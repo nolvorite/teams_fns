@@ -5,19 +5,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PHP Graph Tutorial</title>
-
+    <title>{{ env('app_name') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
     <link rel="stylesheet" href="{{ asset2('/css/app.css') }}">
+    <style type="text/css">
+      #teams_pane{padding:2rem;}
+      label{font-weight:bold;}
+      textarea.form-control{min-height:200px;}
+      ul#team_list {
+          max-height: 300px;
+          overflow: auto;
+          display: block;
+      }
+
+      #team_list .nav-item {
+          display: block;
+          width: 100%;
+      }
+      td a {
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+      }
+
+      td a.nav-link {
+          max-width: unset;
+      }
+
+      table td a:visited {
+          color: #333;
+          opacity: .5!important;
+      }
+    </style>
   </head>
 
   <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container">
-        <a href="/" class="navbar-brand">PHP Graph Tutorial</a>
+        <a href="{{ link2('') }}" class="navbar-brand">{{ env('app_name') }}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -25,20 +56,13 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a href="{{ link2('/') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == '/' ? ' active' : ''}}">Home</a>
+              <a href="{{ link2('') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == '' ? ' active' : ''}}">Home</a>
             </li>
-            @if(isset($userName))
-              <li class="nav-item" data-turbolinks="false">
-                <a href="{{ link2('calendar') }}" class="nav-link{{$_SERVER['REQUEST_URI'] == '/calendar' ? ' active' : ''}}">Calendar</a>
-              </li>
-            @endif
+            <li class="nav-item">
+              <a href="{{ link2('teams') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == 'teams' ? ' active' : ''}}">Teams</a>
+            </li>
           </ul>
           <ul class="navbar-nav justify-content-end">
-            <li class="nav-item">
-              <a class="nav-link" href="https://docs.microsoft.com/graph/overview" target="_blank">
-                <i class="fas fa-external-link-alt mr-1"></i>Docs
-              </a>
-            </li>
             @if(isset($userName))
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -78,15 +102,58 @@
       @yield('content')
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"></script>
+
+      <script type="text/javascript">
+        siteUrl = "{{ link2('') }}";
+        inProcess = false;
+      </script>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+            window._token = '{{ csrf_token() }}';
+
+            $("#make_meeting_link").on("click",function(event){
+              event.preventDefault();
+
+              if(!inProcess){
+
+                  teamId = $(this).attr("team_id");
+
+                  $.post(siteUrl+"make_meeting_link",{_token: window._token, team_id: teamId},function(results){
+
+                    if(results.status){
+
+                      alert("Successfully created new meeting link.");
+                      window.location.reload();
+
+                    }else{
+                      alert("Failed to create new meeting link.");
+                    }
+
+                    inProcess = false;
+
+                  },"json").fail(function(){
+                    inProcess = false;
+                  });
+
+                  inProcess = true;
+
+              }
+
+              
+
+
+            });
+
+        });
+      </script>
   </body>
 </html>
 <!-- </LayoutSnippet> -->
