@@ -3,7 +3,7 @@
 if(!function_exists('asset2')){
 
 	function asset2($pathToFile){
-		return URL::to('/public/').$pathToFile;
+		return URL::to('').$pathToFile;
 	}
 
 }
