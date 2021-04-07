@@ -7,3 +7,7 @@ body {
   word-break: break-all;
   white-space: pre-wrap;
 }
+
+#meetings .nav-link {
+    text-decoration: underline;
+}

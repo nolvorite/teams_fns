@@ -3,7 +3,7 @@
 if(!function_exists('asset2')){
 
 	function asset2($pathToFile){
-		return URL::to('').$pathToFile;
+		return 'https://sitetests.com:81/'.$pathToFile;
 	}
 
 }
@@ -11,7 +11,7 @@ if(!function_exists('asset2')){
 if(!function_exists('link2')){
 
 	function link2($url){
-		return env('APP_URL').$url;
+		return 'https://sitetests.com:81/'.$url;
 	}	
 
 }

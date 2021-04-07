@@ -42,6 +42,11 @@
           color: #333;
           opacity: .5!important;
       }
+
+      #meetings a.nav-link {
+          text-decoration: underline;
+      }
+      tbody th{vertical-align:middle;text-align:center;}
     </style>
   </head>
 
@@ -56,10 +61,13 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a href="{{ link2('') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == '' ? ' active' : ''}}">Home</a>
+              <a href="{{ link2('') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == '/' ? ' active' : ''}}">Home</a>
             </li>
             <li class="nav-item">
-              <a href="{{ link2('teams') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == 'teams' ? ' active' : ''}}">Teams</a>
+              <a href="{{ link2('teams') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == '/teams' ? ' active' : ''}}">Teams</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ link2('default') }}" class="nav-link {{$_SERVER['REQUEST_URI'] == '/default' ? ' active' : ''}}">Default </a>
             </li>
           </ul>
           <ul class="navbar-nav justify-content-end">
@@ -103,6 +111,7 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{{ link2('external/jquery-ui.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"></script>
@@ -126,7 +135,13 @@
 
                   teamId = $(this).attr("team_id");
 
-                  $.post(siteUrl+"make_meeting_link",{_token: window._token, team_id: teamId},function(results){
+                  name = $("[name=subject]").val();
+
+                  desc = $("[name=meeting_information]").val();
+
+                  data = {_token: window._token, team_id: teamId, mode: currentMode, name: name };
+
+                  $.post(siteUrl+"make_meeting_link",data,function(results){
 
                     if(results.status){
 

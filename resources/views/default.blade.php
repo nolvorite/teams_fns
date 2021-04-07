@@ -7,7 +7,7 @@
 @section('content')
 <h3>Teams Manager
 @if($mode === "create") 
-      <a href="{{ link2($current_mode.'/') }}" class="btn btn-warning btn-sm" style="vertical-align:top">Go Back</a>
+      <a href="{{ link2('teams/') }}" class="btn btn-warning btn-sm" style="vertical-align:top">Go Back</a>
       @endif</h3>
 
 <div class="container jumbotron" id="teams_pane">
@@ -18,7 +18,7 @@
       <h5>Your Team Memberships</h5>
       @if(count($teams) === 0)
       <p><em>Unfortunately, you are not a part of any teams! You can create one here for yourself and others, however.</em><br><br>
-      <a href="{{ link2($current_mode.'/create') }}" class="btn btn-primary">Create New Team!</a>
+      <a href="{{ link2('teams/create') }}" class="btn btn-primary">Create New Team!</a>
       </p>
       @else
       <ul id="team_list" class="nav flex-column nav-pills">
@@ -30,13 +30,13 @@
         @endphp
 
           <li class="nav-item">
-            <a class="nav-link{{ ($request->segment(2) === $team->getProperties()['id'].'') ? ' active' : '' }}" href="{{ link2($current_mode.'/'.$team->getProperties()['id']) }}">{{ $team->getProperties()['displayName'] }}</a>
+            <a class="nav-link{{ ($request->segment(2) === $team->getProperties()['id'].'') ? ' active' : '' }}" href="{{ link2('teams/'.$team->getProperties()['id']) }}">{{ $team->getProperties()['displayName'] }}</a>
           </li>
         @endfor
 
       </ul>
       @endif
-      <a href="{{ link2($current_mode.'/create') }}" class="btn btn-primary">Create New Team!</a>
+      <a href="{{ link2('teams/create') }}" class="btn btn-primary">Create New Team!</a>
       @endif
       
     </div>
@@ -46,7 +46,6 @@
       <form method="POST" action="{{link2('create_team')}}">
         @csrf
       <h5>Create New Team</h5>
-      <input type="hidden" name="current_mode" value="{{ $current_mode }}">
       <div class="form-group">
         <label>Team Name</label>
         <input type="text" class="form-control" name="team_name" placeholder="Team Name">
@@ -70,7 +69,7 @@
       <p>Here are some other links.</p>
 
       <ul>
-        <li><a href="{{ link2($current_mode.'/create') }}">Create New Team</a></li>
+        <li><a href="{{ link2('teams/create') }}">Create New Team</a></li>
       </ul>
 
       @endif
@@ -82,7 +81,7 @@
 
       <script type="text/javascript">
           setTimeout(function(){
-            window.location.assign("{{ link2($current_mode.'/') }}");
+            window.location.assign("{{ link2('teams/') }}");
           },5000);
       </script>
 
@@ -137,34 +136,10 @@
 
                         
                       @endif
-                     
+                      <p><button id="make_meeting_link" class="btn btn-dark btn-sm" team_id="{{ $teamInfo['id'] }}">Create New Meeting!</button></p>
 
                     </td>
                   </tr>
-                  <tr><th>Create New Meeting</th><td> 
-
-                  <div class="form-group">
-                    <label>Meeting Name</label>
-                    <input class='form-control' placeholder='Meeting Name' name='subject'>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Meeting Information</label>
-                    <textarea class='form-control' name='meeting_information' placeholder='Describe what the meeting will be about.'></textarea>
-                  </div>
-                  <!-- 
-                  <div class="form-group">
-          
-                    <label>Meeting Start Time</label>
-                    <input type="text" class="form-control" name="meeting_start_time">
-                  </div>
-
-                   <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="announce_arrivals">
-                    <label class="form-check-label" for="announce_arrivals">Announce whenever people join or leave</label>
-                  </div>
-  -->
-                  <p><button id="make_meeting_link" class="btn btn-dark btn-sm" team_id="{{ $teamInfo['id'] }}">Create New Meeting!</button></p></td></tr>
                   <tr>
                     <th>Team URL (Microsoft)</th>
                     <td><a href="{{ $teamInfo['webUrl'] }}" target="_blank">{{ $teamInfo['webUrl'] }}</a></td>
@@ -172,7 +147,7 @@
                   <tr>
                     <th>Team URL (Home)</th>
                     <td>
-                      <a href="{{ link2($current_mode.'/'.$teamInfo['id']) }}">{{ link2($current_mode.'/'.$teamInfo['id']) }}</a>
+                      <a href="{{ link2('teams/'.$teamInfo['id']) }}">{{ link2('teams/'.$teamInfo['id']) }}</a>
                     </td>
                   </tr>
                   <tr>
@@ -211,8 +186,5 @@
   </div>
 </div>
 
-<script type="text/javascript">
-    currentMode = '{{ $current_mode }}';
-</script>
 @endsection
 <!-- </WelcomeSnippet> -->

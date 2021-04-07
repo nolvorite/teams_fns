@@ -6,9 +6,20 @@ Route::get('/', 'HomeController@welcome');
 Route::get('/signin', 'AuthController@signin');
 Route::get('/callback', 'AuthController@callback');
 Route::get('/signout', 'AuthController@signout');
+
 Route::get('/teams', 'TeamsController@index');
 
 Route::get('/teams/{teamId}', 'TeamsController@index');
+
+//------------------------------------------------
+
+Route::get('/default', 'TeamsController@index');
+
+Route::get('/default/{teamId}', 'TeamsController@index');
+
+
+//--------------------------------------------------
+
 
 Route::post('/create_team', 'TeamsController@createTeam');
 
